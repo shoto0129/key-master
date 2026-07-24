@@ -218,7 +218,7 @@
         <div class="mode-options">
           <div class="mode-btn active" id="mode-easy" onclick="selectMode('easy')">
             <div class="mode-title">イージーモード</div>
-            <div class="mode-desc">問題文に答え（Ctrl+C等）を表示</div>
+            <div class="mode-desc">問題文に答えを表示</div>
           </div>
           <div class="mode-btn" id="mode-master" onclick="selectMode('master')">
             <div class="mode-title">マスターモード</div>
@@ -259,7 +259,8 @@
   </div>
 
   <script>
-    // 問題データ (Ctrl + キー)
+    // ブラウザの仕様上、新規タブやウィンドウを開くショートカット（Ctrl+N, Ctrl+T等）は
+    // 完全にブロックできないため、安全にゲームができるキーのみをリスト化しています
     const questionsList = [
       { name: "コピー", key: "c", ctrl: true, hint: "Ctrl + C" },
       { name: "貼り付け（ペースト）", key: "v", ctrl: true, hint: "Ctrl + V" },
@@ -270,12 +271,10 @@
       { name: "上書き保存", key: "s", ctrl: true, hint: "Ctrl + S" },
       { name: "検索", key: "f", ctrl: true, hint: "Ctrl + F" },
       { name: "印刷", key: "p", ctrl: true, hint: "Ctrl + P" },
-      { name: "新しいウィンドウを開く", key: "n", ctrl: true, hint: "Ctrl + N" },
-      { name: "新しいタブを開く", key: "t", ctrl: true, hint: "Ctrl + T" },
-      { name: "閉じる / タブ閉じる", key: "w", ctrl: true, hint: "Ctrl + W" }
+      { name: "すべて選択", key: "a", ctrl: true, hint: "Ctrl + A" }
     ];
 
-    let currentMode = 'easy'; // 'easy' または 'master'
+    let currentMode = 'easy'; // 'easy' or 'master'
     let currentQuestion = null;
     let score = 0;
     let timeLeft = 30;
@@ -336,7 +335,6 @@
       
       questionEl.textContent = currentQuestion.name;
 
-      // イージーモードの時だけヒントバッジ（答え）を表示
       if (currentMode === 'easy') {
         hintBoxEl.textContent = currentQuestion.hint;
         hintBoxEl.classList.remove('hidden');

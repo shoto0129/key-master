@@ -27,7 +27,7 @@
       border-radius: 20px;
       box-shadow: 0 15px 35px rgba(0,0,0,0.12);
       width: 100%;
-      max-width: 580px;
+      max-width: 600px;
       text-align: center;
     }
 
@@ -64,7 +64,7 @@
 
     .mode-btn {
       flex: 1;
-      padding: 0.8rem 0.5rem;
+      padding: 0.9rem 0.5rem;
       border: 2px solid #dadce0;
       border-radius: 12px;
       background: #f8f9fa;
@@ -86,15 +86,26 @@
 
     .mode-title {
       font-weight: bold;
-      font-size: 0.95rem;
+      font-size: 1rem;
       color: #1a73e8;
       margin-bottom: 4px;
     }
 
-    .mode-desc {
+    .mode-key-type {
+      display: inline-block;
       font-size: 0.72rem;
+      font-weight: bold;
+      background: #e8f0fe;
+      color: #1a73e8;
+      padding: 2px 6px;
+      border-radius: 4px;
+      margin-bottom: 6px;
+    }
+
+    .mode-desc {
+      font-size: 0.75rem;
       color: #70757a;
-      line-height: 1.2;
+      line-height: 1.3;
     }
 
     .info-bar {
@@ -219,15 +230,18 @@
         <div class="mode-options">
           <div class="mode-btn active" id="mode-easy" onclick="selectMode('easy')">
             <div class="mode-title">イージー</div>
-            <div class="mode-desc">基本問題<br>答え表示あり</div>
+            <div class="mode-key-type">Ctrlのみ</div>
+            <div class="mode-desc">基本ショートカット<br><strong>答え表示あり</strong></div>
           </div>
           <div class="mode-btn" id="mode-normal" onclick="selectMode('normal')">
             <div class="mode-title">ノーマル</div>
-            <div class="mode-desc">基本問題<br>答え非表示</div>
+            <div class="mode-key-type">Ctrlのみ</div>
+            <div class="mode-desc">基本ショートカット<br><strong>答え非表示</strong></div>
           </div>
           <div class="mode-btn" id="mode-master" onclick="selectMode('master')">
             <div class="mode-title">マスター</div>
-            <div class="mode-desc">Win/Shift問題<br>答え非表示</div>
+            <div class="mode-key-type">Ctrl + Shift</div>
+            <div class="mode-desc">応用ショートカット<br><strong>答え非表示</strong></div>
           </div>
         </div>
       </div>
@@ -264,33 +278,29 @@
   </div>
 
   <script>
-    // 問題リスト
-    // category: 'basic' (Ctrl中心), 'master' (Winキー・Shiftキー等)
+    // 問題リスト（Winキーを一切排除し、ブラウザ上で安全にブロックできる問題のみで構成）
     const questionsList = [
-      // --- 基本問題 (Ctrl系) ---
-      { name: "コピー", key: "c", ctrl: true, shift: false, win: false, hint: "Ctrl + C", category: "basic" },
-      { name: "貼り付け（ペースト）", key: "v", ctrl: true, shift: false, win: false, hint: "Ctrl + V", category: "basic" },
-      { name: "切り取り（カット）", key: "x", ctrl: true, shift: false, win: false, hint: "Ctrl + X", category: "basic" },
-      { name: "すべて選択", key: "a", ctrl: true, shift: false, win: false, hint: "Ctrl + A", category: "basic" },
-      { name: "元に戻す（アンドゥ）", key: "z", ctrl: true, shift: false, win: false, hint: "Ctrl + Z", category: "basic" },
-      { name: "やり直し（リドゥ）", key: "y", ctrl: true, shift: false, win: false, hint: "Ctrl + Y", category: "basic" },
-      { name: "上書き保存", key: "s", ctrl: true, shift: false, win: false, hint: "Ctrl + S", category: "basic" },
-      { name: "検索", key: "f", ctrl: true, shift: false, win: false, hint: "Ctrl + F", category: "basic" },
-      { name: "印刷", key: "p", ctrl: true, shift: false, win: false, hint: "Ctrl + P", category: "basic" },
-      { name: "太字にする(ボールド)", key: "b", ctrl: true, shift: false, win: false, hint: "Ctrl + B", category: "basic" },
-      { name: "斜体にする(イタリック)", key: "i", ctrl: true, shift: false, win: false, hint: "Ctrl + I", category: "basic" },
-      { name: "下線を引く(アンダーライン)", key: "u", ctrl: true, shift: false, win: false, hint: "Ctrl + U", category: "basic" },
-      { name: "ハイパーリンクの挿入", key: "k", ctrl: true, shift: false, win: false, hint: "Ctrl + K", category: "basic" },
+      // --- 基本問題 (Ctrlのみ) ---
+      { name: "コピー", key: "c", ctrl: true, shift: false, hint: "Ctrl + C", category: "basic" },
+      { name: "貼り付け（ペースト）", key: "v", ctrl: true, shift: false, hint: "Ctrl + V", category: "basic" },
+      { name: "切り取り（カット）", key: "x", ctrl: true, shift: false, hint: "Ctrl + X", category: "basic" },
+      { name: "すべて選択", key: "a", ctrl: true, shift: false, hint: "Ctrl + A", category: "basic" },
+      { name: "元に戻す（アンドゥ）", key: "z", ctrl: true, shift: false, hint: "Ctrl + Z", category: "basic" },
+      { name: "やり直し（リドゥ）", key: "y", ctrl: true, shift: false, hint: "Ctrl + Y", category: "basic" },
+      { name: "上書き保存", key: "s", ctrl: true, shift: false, hint: "Ctrl + S", category: "basic" },
+      { name: "検索", key: "f", ctrl: true, shift: false, hint: "Ctrl + F", category: "basic" },
+      { name: "印刷", key: "p", ctrl: true, shift: false, hint: "Ctrl + P", category: "basic" },
+      { name: "太字にする(ボールド)", key: "b", ctrl: true, shift: false, hint: "Ctrl + B", category: "basic" },
+      { name: "斜体にする(イタリック)", key: "i", ctrl: true, shift: false, hint: "Ctrl + I", category: "basic" },
+      { name: "下線を引く(アンダーライン)", key: "u", ctrl: true, shift: false, hint: "Ctrl + U", category: "basic" },
+      { name: "ハイパーリンクの挿入", key: "k", ctrl: true, shift: false, hint: "Ctrl + K", category: "basic" },
 
-      // --- マスター問題 (Shift・Winキー複合) ---
-      { name: "画面切り抜き (Snipping Tool)", key: "s", ctrl: false, shift: true, win: true, hint: "Win + Shift + S", category: "master" },
-      { name: "クリップボードの履歴", key: "v", ctrl: false, shift: false, win: true, hint: "Win + V", category: "master" },
-      { name: "エクスプローラーを開く", key: "e", ctrl: false, shift: false, win: true, hint: "Win + E", category: "master" },
-      { name: "画面をロックする", key: "l", ctrl: false, shift: false, win: true, hint: "Win + L", category: "master" },
-      { name: "デスクトップを表示", key: "d", ctrl: false, shift: false, win: true, hint: "Win + D", category: "master" },
-      { name: "タスクマネージャーを起動", key: "Escape", ctrl: true, shift: true, win: false, hint: "Ctrl + Shift + Esc", category: "master" },
-      { name: "新しいフォルダーを作成", key: "N", ctrl: true, shift: true, win: false, hint: "Ctrl + Shift + N", category: "master" },
-      { name: "絵文字パネルを開く", key: ".", ctrl: false, shift: false, win: true, hint: "Win + .", category: "master" }
+      // --- 応用問題 (Ctrl + Shift) ---
+      { name: "新しいフォルダーを作成", key: "n", ctrl: true, shift: true, hint: "Ctrl + Shift + N", category: "master" },
+      { name: "閉じたタブを復元", key: "t", ctrl: true, shift: true, hint: "Ctrl + Shift + T", category: "master" },
+      { name: "プレーンテキストとして貼り付け", key: "v", ctrl: true, shift: true, hint: "Ctrl + Shift + V", category: "master" },
+      { name: "やり直し（リドゥ / 別パターン）", key: "z", ctrl: true, shift: true, hint: "Ctrl + Shift + Z", category: "master" },
+      { name: "名前を付けて保存（多くのアプリ）", key: "s", ctrl: true, shift: true, hint: "Ctrl + Shift + S", category: "master" }
     ];
 
     let currentMode = 'easy'; // 'easy', 'normal', 'master'
@@ -350,7 +360,7 @@
 
     // 次の問題をセット
     function nextQuestion() {
-      // モードに応じた問題リストのフィルタリング
+      // モードに応じた問題の抽出
       const targetCategory = currentMode === 'master' ? 'master' : 'basic';
       const availableQuestions = questionsList.filter(q => q.category === targetCategory);
 
@@ -359,7 +369,7 @@
       
       questionEl.textContent = currentQuestion.name;
 
-      // イージーモードのみヒント表示
+      // イージーモードのみヒントを表示
       if (currentMode === 'easy') {
         hintBoxEl.textContent = currentQuestion.hint;
         hintBoxEl.classList.remove('hidden');
@@ -378,9 +388,9 @@
       resultScreen.classList.remove('hidden');
 
       let modeText = '';
-      if (currentMode === 'easy') modeText = 'イージーモード（基本・ヒントあり）';
-      else if (currentMode === 'normal') modeText = 'ノーマルモード（基本・ヒントなし）';
-      else if (currentMode === 'master') modeText = 'マスターモード（Win/Shift応用・ヒントなし）';
+      if (currentMode === 'easy') modeText = 'イージー（Ctrlのみ・答え表示あり）';
+      else if (currentMode === 'normal') modeText = 'ノーマル（Ctrlのみ・答え表示なし）';
+      else if (currentMode === 'master') modeText = 'マスター（Ctrl + Shift・答え表示なし）';
 
       resultModeDisplayEl.textContent = `プレイモード: ${modeText}`;
       finalScoreEl.textContent = `${score}問`;
@@ -390,22 +400,20 @@
     document.addEventListener('keydown', (e) => {
       if (!isPlaying) return;
 
-      // ブラウザ標準ショートカットの暴発を防ぐ
-      if (e.ctrlKey || e.metaKey || e.key === "Tab") {
+      // ブラウザ標準機能の暴発（新しいタブを開く・保存・印刷など）を完全にブロック
+      if (e.ctrlKey || e.key === "Tab") {
         e.preventDefault();
       }
 
-      // 入力中キーのリアルタイム表示構築
+      // 押されたキーのリアルタイム表示
       let pressedText = "";
       if (e.ctrlKey) pressedText += "Ctrl + ";
       if (e.shiftKey) pressedText += "Shift + ";
-      if (e.metaKey) pressedText += "Win + ";
       if (e.altKey) pressedText += "Alt + ";
       
-      const ignoreKeys = ["Control", "Shift", "Meta", "Alt"];
+      const ignoreKeys = ["Control", "Shift", "Alt"];
       if (!ignoreKeys.includes(e.key)) {
         let displayKey = e.key.toUpperCase();
-        if (e.key === "Escape") displayKey = "Esc";
         if (e.key === " ") displayKey = "Space";
         pressedText += displayKey;
       }
@@ -414,13 +422,12 @@
         keyDisplayEl.innerHTML = `<span class="key-tag">${pressedText}</span>`;
       }
 
-      // 正解判定
+      // 正解判定（CtrlとShiftのフラグ状態および文字キーの一致を評価）
       const isCtrlMatch = !!currentQuestion.ctrl === e.ctrlKey;
       const isShiftMatch = !!currentQuestion.shift === e.shiftKey;
-      const isWinMatch = !!currentQuestion.win === e.metaKey;
       const isKeyMatch = e.key.toLowerCase() === currentQuestion.key.toLowerCase();
 
-      if (isCtrlMatch && isShiftMatch && isWinMatch && isKeyMatch) {
+      if (isCtrlMatch && isShiftMatch && isKeyMatch) {
         score++;
         scoreEl.textContent = score;
         nextQuestion();
